@@ -2,14 +2,7 @@
 
 using namespace glm;
 
-void buildTerrainMesh(
-	ofMesh& terrainMesh,
-	const ofShortPixels& heightmap,
-	unsigned int xStart,
-	unsigned int yStart,
-	unsigned int xEnd,
-	unsigned int yEnd,
-	vec3 scale)
+void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd, vec3 scale)
 {
 	for (unsigned int y { yStart }; y < yEnd; ++y)
 	{
