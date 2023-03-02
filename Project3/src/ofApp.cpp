@@ -21,6 +21,8 @@ void ofApp::setup()
 	ofDisableArbTex();
 	ofEnableDepthTest();
 
+	glEnable(GL_CULL_FACE);
+
 	ofShortImage heightmap {};
 	heightmap.setUseTexture(false);
 	heightmap.load("textures/TamrielLowRes.png");
@@ -51,7 +53,7 @@ void ofApp::update()
 	const mat3 mCamPitch { mat3(rotate(-cameraPitch, vY)) };
 
 	// update position
-	position += (mCamPitch * mCamHead) * velocity * dt;
+	position += (mCamHead * mCamPitch) * velocity * dt;
 
 	if (shadersNeedReload) { reloadShaders(); }
 }
@@ -67,13 +69,13 @@ void ofApp::draw()
 	// constant view and projection for the models
 	const mat4 view { (rotate(cameraHead, vY) * rotate(cameraPitch, vX)) * translate(-position) };
 	const mat4 proj { perspective(radians(100.0f), aspect, 0.01f, 10.0f) };
-	const mat4 model {};
+	const mat4 model { rotate(radians(45.0f), vec3(1, 1, 1)) * scale(vec3(0.5, 0.5, 0.5)) };
 
 	// drawing the terrain
 	{
 		terrainShader.begin();
-		terrainShader.setUniformMatrix4f("mvp", proj*view*model);
-		terrainShader.setUniformMatrix4f("mv", view*model);
+		terrainShader.setUniformMatrix4f("mvp", proj * view * model);
+		terrainShader.setUniformMatrix4f("mv", view * model);
 		terrainMesh.draw();
 		terrainShader.end();
 	}

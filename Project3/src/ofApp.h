@@ -35,8 +35,8 @@ private:
 	glm::vec3 velocity { 0, 0, 0 };
 	glm::vec3 position { };
 
-	float cameraHead {};
-	float cameraPitch {};
+	float cameraHead {0};
+	float cameraPitch {0};
 	void updateCameraRotation(float dx, float dy);
 
 	bool shadersNeedReload { true };
