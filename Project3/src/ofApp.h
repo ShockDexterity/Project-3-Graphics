@@ -24,6 +24,7 @@ public:
 
 private:
 	ofMesh terrainMesh {};
+	ofVbo terrainVbo {};
 	ofShader terrainShader {};
 
 	int prevX {};
@@ -33,10 +34,10 @@ private:
 	const glm::vec3 vX { 1,0,0 };
 	const glm::vec3 vY { 0,1,0 };
 	glm::vec3 velocity { 0, 0, 0 };
-	glm::vec3 position { };
+	glm::vec3 position {};
 
-	float cameraHead {0};
-	float cameraPitch {0};
+	float cameraHead { 0 };
+	float cameraPitch { 0 };
 	void updateCameraRotation(float dx, float dy);
 
 	bool shadersNeedReload { true };

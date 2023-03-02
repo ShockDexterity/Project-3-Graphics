@@ -8,23 +8,23 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 	{
 		for (unsigned int x { xStart }; x < xEnd; ++x)
 		{
-			const auto h { heightmap.getColor(x, y).r };
-			terrainMesh.addVertex(vec3(x, h / static_cast<float>(0xffff), y) * scale); // USHRT_MAX = 0xffff
+			const float h { heightmap.getColor(x, y).r / static_cast<float>(0xffff) };	// USHRT_MAX = 0xffff
+			terrainMesh.addVertex(vec3(x, h, y) * scale);
 			terrainMesh.addColor(ofFloatColor(1, 0, 0));
 		}
 	}
 
-	for (unsigned int y { 0 }; y < yEnd - 1; ++y)
+	for (unsigned int y { yStart }; y < yEnd - 1; ++y)
 	{
-		for (unsigned int x { 0 }; x < xEnd - 1; ++x)
+		for (unsigned int x { xStart }; x < xEnd - 1; ++x)
 		{
 			terrainMesh.addIndex(x + y * yEnd);
 			terrainMesh.addIndex(x + (y + 1) * yEnd);
 			terrainMesh.addIndex((x + 1) + y * yEnd);
 
+			terrainMesh.addIndex((x + 1) + y * yEnd);
 			terrainMesh.addIndex(x + (y + 1) * yEnd);
 			terrainMesh.addIndex((x + 1) + (y + 1) * yEnd);
-			terrainMesh.addIndex((x + 1) + y * yEnd);
 		}
 	}
 }
