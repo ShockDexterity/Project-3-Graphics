@@ -23,7 +23,21 @@ public:
 
 
 private:
+	ofMesh terrainMesh {};
 	ofShader terrainShader {};
+
+	int prevX {};
+	int prevY {};
+	const float mouseSensitivity { 0.02f };
+
+	const glm::vec3 vX { 1,0,0 };
+	const glm::vec3 vY { 0,1,0 };
+	glm::vec3 velocity { 0, 0, 0 };
+	glm::vec3 position { };
+
+	float cameraHead {};
+	float cameraPitch {};
+	void updateCameraRotation(float dx, float dy);
 
 	bool shadersNeedReload { true };
 	void reloadShaders();
