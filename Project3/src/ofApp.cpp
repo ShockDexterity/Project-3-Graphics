@@ -50,10 +50,10 @@ void ofApp::update()
 
 	// calculate world space velocity
 	const mat3 mCamHead { mat3(rotate(-cameraHead, vY)) };
-	const mat3 mCamPitch { mat3(rotate(-cameraPitch, vY)) };
+	const mat3 mCamPitch { mat3(rotate(-cameraPitch, vX)) };
 
 	// update position
-	position += (mCamHead * mCamPitch) * velocity * dt;
+	position += (mCamPitch * mCamHead) * velocity * dt;
 
 	if (shadersNeedReload) { reloadShaders(); }
 }
