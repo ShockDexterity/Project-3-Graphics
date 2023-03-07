@@ -19,7 +19,7 @@ void ofApp::updateCameraRotation(float dx, float dy)
 void ofApp::setup()
 {
 	ofDisableArbTex();
-	ofEnableDepthTest();
+	// ofEnableDepthTest();
 
 	glEnable(GL_CULL_FACE);
 
@@ -35,8 +35,9 @@ void ofApp::setup()
 		0,
 		heightmap.getWidth() - 1,
 		heightmap.getHeight() - 1,
-		vec3(1, 50, 1)
+		vec3(1, 1, 1)
 	);
+	//terrainMesh.flatNormals();
 }
 
 //--------------------------------------------------------------
@@ -71,14 +72,15 @@ void ofApp::draw()
 	const mat4 proj { perspective(radians(100.0f), aspect, 0.01f, 10.0f) };
 	const mat4 model { rotate(radians(45.0f), vec3(1, 1, 1)) * scale(vec3(0.5, 0.5, 0.5)) };
 
+
 	// drawing the terrain
+	terrainShader.begin();
 	{
-		terrainShader.begin();
 		terrainShader.setUniformMatrix4f("mvp", proj * view * model);
 		terrainShader.setUniformMatrix4f("mv", view * model);
 		terrainMesh.draw();
-		terrainShader.end();
 	}
+	terrainShader.end();
 }
 
 //--------------------------------------------------------------
@@ -88,14 +90,14 @@ void ofApp::keyPressed(int key)
 	{
 		case '`': shadersNeedReload = true; break;
 
-		case 'a': velocity.x = -1; break;
-		case 'd': velocity.x = 1; break;
+		case 'a': velocity.x = -10; break;
+		case 'd': velocity.x = 10; break;
 
-		case 'q': velocity.y = -1; break;
-		case 'e': velocity.y = 1; break;
+		case 'q': velocity.y = -10; break;
+		case 'e': velocity.y = 10; break;
 
-		case 'w': velocity.z = -1; break;
-		case 's': velocity.z = 1; break;
+		case 'w': velocity.z = -10; break;
+		case 's': velocity.z = 10; break;
 
 		default: break;
 	}
