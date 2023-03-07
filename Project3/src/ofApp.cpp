@@ -35,7 +35,7 @@ void ofApp::setup()
 		0,
 		heightmap.getWidth() - 1,
 		heightmap.getHeight() - 1,
-		vec3(1, 1, 1)
+		vec3(1, 50, 1)
 	);
 }
 
