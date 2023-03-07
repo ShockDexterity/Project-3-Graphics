@@ -35,7 +35,7 @@ void ofApp::setup()
 		0,
 		heightmap.getWidth() - 1,
 		heightmap.getHeight() - 1,
-		vec3(1, 1, 1)
+		vec3(1, 50, 1)
 	);
 	terrainMesh.flatNormals();
 }
@@ -54,7 +54,7 @@ void ofApp::update()
 	const mat3 mCamPitch { mat3(rotate(-cameraPitch, vX)) };
 
 	// update position
-	position += (mCamPitch * mCamHead) * velocity * dt;
+	position += (mCamHead * mCamPitch) * velocity * dt;
 
 	if (shadersNeedReload) { reloadShaders(); }
 }
@@ -69,8 +69,8 @@ void ofApp::draw()
 
 	// constant view and projection for the models
 	const mat4 view { (rotate(cameraPitch, vX) * rotate(cameraHead, vY)) * translate(-position) };
-	const mat4 proj { perspective(radians(100.0f), aspect, 0.01f, 10.0f) };
-	const mat4 model { rotate(radians(45.0f), vec3(1, 1, 1)) * scale(vec3(0.5, 0.5, 0.5)) };
+	const mat4 proj { perspective(radians(100.0f), aspect, 1.0f, 1000.0f) };
+	const mat4 model {};
 
 
 	// drawing the terrain
