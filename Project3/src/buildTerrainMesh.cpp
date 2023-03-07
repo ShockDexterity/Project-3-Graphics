@@ -13,9 +13,7 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 			{
 				const float h { heightmap.getColor(x, y).r / static_cast<float>(USHRT_MAX) };	// USHRT_MAX = 0xffff
 				terrainMesh.addVertex(vec3(x, h, y) * scale);
-				terrainMesh.addColor(ofFloatColor(1, 0, 0));
 			}
-
 		}
 	}
 
@@ -40,12 +38,12 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 				i6 += y;
 			}*/
 
-			terrainMesh.addIndex(i1+y);
-			terrainMesh.addIndex(i2+y);
-			terrainMesh.addIndex(i3+y);
-			terrainMesh.addIndex(i4+y);
-			terrainMesh.addIndex(i5+y);
-			terrainMesh.addIndex(i6+y);
+			terrainMesh.addIndex(i1 + y);
+			terrainMesh.addIndex(i2 + y);
+			terrainMesh.addIndex(i3 + y);
+			terrainMesh.addIndex(i4 + y);
+			terrainMesh.addIndex(i5 + y);
+			terrainMesh.addIndex(i6 + y);
 
 			// std::vector<unsigned int> vec { i1,i2,i3,i4,i5,i6 };
 
