@@ -10,9 +10,11 @@ uniform mat4 mv;
 out vec3 fragNormal;
 out vec2 fragUV;
 
+uniform mat3 normalMatrix;
+
 void main()
 {
 	gl_Position = mvp * vec4(pos, 1.0);
-	fragNormal = normal;
+	fragNormal = normalMatrix * normal;
 	fragUV = vec2(uv.x, 1 - uv.y);
 }

@@ -81,8 +81,13 @@ void ofApp::draw()
 	// drawing the terrain
 	terrainShader.begin();
 	{
+		terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
 		terrainShader.setUniformMatrix4f("mvp", proj * view * model);
 		terrainShader.setUniformMatrix4f("mv", view * model);
+		terrainShader.setUniform3f("meshColor", vec3(0.9f, 0.4f, 0.8f));
+		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
+		terrainShader.setUniform3f("lightDir", normalize(vec3(-1, 1, 1)));
+		terrainShader.setUniform3f("ambientColor", vec3(0.1));
 		terrainMesh.draw();
 	}
 	terrainShader.end();
