@@ -19,9 +19,9 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 		}
 	}
 
-	for (unsigned int y { yStart }; y < yEnd - 1; ++y)
+	for (unsigned int y { yStart }; y < yEnd; ++y)
 	{
-		for (unsigned int x { xStart }; x < xEnd - 1; ++x)
+		for (unsigned int x { xStart }; x < xEnd; ++x)
 		{
 			unsigned int i1 { x + y * xEnd };
 			unsigned int i2 { x + (y + 1) * xEnd + 1 };
@@ -32,12 +32,12 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 
 			if (y != 0)
 			{
-				++i1;
-				++i2;
-				++i3;
-				++i4;
-				++i5;
-				++i6;
+				i1 += y;
+				i2 += y;
+				i3 += y;
+				i4 += y;
+				i5 += y;
+				i6 += y;
 			}
 
 			terrainMesh.addIndex(i1);
@@ -47,9 +47,9 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 			terrainMesh.addIndex(i5);
 			terrainMesh.addIndex(i6);
 
-			std::vector<unsigned int> vec { i1,i2,i3,i4,i5,i6 };
+			// std::vector<unsigned int> vec { i1,i2,i3,i4,i5,i6 };
 
-			if (true)
+			/*if (false)
 			{
 				std::cout << "{ ";
 				for (unsigned int i : vec)
@@ -57,7 +57,7 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 					std::cout << i << ' ';
 				}
 				std::cout << '}' << '\n';
-			}
+			}*/
 		}
 	}
 }
