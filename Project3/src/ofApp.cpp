@@ -37,6 +37,11 @@ void ofApp::setup()
 		heightmap.getHeight() - 1,
 		vec3(1, 50, 1)
 	);
+
+	for (size_t i = 0; i < terrainMesh.getNumNormals(); i++)
+	{
+		terrainMesh.setNormal(i, -terrainMesh.getNormal(i));
+	}
 	terrainMesh.flatNormals();
 }
 
