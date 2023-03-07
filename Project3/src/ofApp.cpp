@@ -35,7 +35,7 @@ void ofApp::setup()
 		0,
 		heightmap.getWidth() - 1,
 		heightmap.getHeight() - 1,
-		vec3(1, 50, 1)
+		vec3(1, 1, 1)
 	);
 }
 
@@ -67,7 +67,7 @@ void ofApp::draw()
 	const float aspect { width / height };
 
 	// constant view and projection for the models
-	const mat4 view { (rotate(cameraHead, vY) * rotate(cameraPitch, vX)) * translate(-position) };
+	const mat4 view { (rotate(cameraPitch, vX) * rotate(cameraHead, vY)) * translate(-position) };
 	const mat4 proj { perspective(radians(100.0f), aspect, 0.01f, 10.0f) };
 	const mat4 model { rotate(radians(45.0f), vec3(1, 1, 1)) * scale(vec3(0.5, 0.5, 0.5)) };
 
