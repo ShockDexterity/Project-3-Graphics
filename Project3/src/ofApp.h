@@ -34,7 +34,7 @@ private:
 	const glm::vec3 vX { 1,0,0 };
 	const glm::vec3 vY { 0,1,0 };
 	glm::vec3 velocity { 0,0,0 };
-	glm::vec3 position { 0, 10, 1 };
+	glm::vec3 position { 50, 50, 200 };
 
 	float cameraHead { 0 };
 	float cameraPitch { 0 };

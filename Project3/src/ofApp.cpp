@@ -19,7 +19,7 @@ void ofApp::updateCameraRotation(float dx, float dy)
 void ofApp::setup()
 {
 	ofDisableArbTex();
-	// ofEnableDepthTest();
+	ofEnableDepthTest();
 
 	glEnable(GL_CULL_FACE);
 
