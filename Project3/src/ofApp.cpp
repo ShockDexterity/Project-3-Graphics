@@ -1,5 +1,6 @@
 #include "ofApp.h"
 #include "buildTerrainMesh.h"
+#include "CameraMatrices.h"
 
 using namespace glm;
 
@@ -11,8 +12,8 @@ void ofApp::reloadShaders()
 
 void ofApp::updateCameraRotation(float dx, float dy)
 {
-	cameraHead += dx;
-	cameraPitch += dy;
+	cameraHead -= dx;
+	cameraPitch -= dy;
 }
 
 //--------------------------------------------------------------
@@ -43,6 +44,8 @@ void ofApp::setup()
 		terrainMesh.setNormal(i, -terrainMesh.getNormal(i));
 	}
 	terrainMesh.flatNormals();
+
+	ofSetBackgroundColor(136, 8, 8);
 }
 
 //--------------------------------------------------------------
@@ -55,11 +58,13 @@ void ofApp::update()
 	// auto window { ofGetCurrentWindow() };
 
 	// calculate world space velocity
-	const mat3 mCamHead { mat3(rotate(-cameraHead, vY)) };
-	const mat3 mCamPitch { mat3(rotate(-cameraPitch, vX)) };
+	//const mat3 mCamHead { mat3(rotate(-cameraHead, vY)) };
+	//const mat3 mCamPitch { mat3(rotate(-cameraPitch, vX)) };
 
 	// update position
-	position += (mCamHead * mCamPitch) * velocity * dt;
+	//camera.position += (mCamHead * mCamPitch) * velocity * dt;
+	camera.position += mat3(rotate(cameraHead, vec3(0, 1, 0))) * velocity * dt;
+	camera.rotation = rotate(cameraHead, vec3(0, 1, 0)) * rotate(cameraPitch, vec3(1, 0, 0));
 
 	if (shadersNeedReload) { reloadShaders(); }
 }
@@ -73,8 +78,9 @@ void ofApp::draw()
 	const float aspect { width / height };
 
 	// constant view and projection for the models
-	const mat4 view { (rotate(cameraPitch, vX) * rotate(cameraHead, vY)) * translate(-position) };
-	const mat4 proj { perspective(radians(100.0f), aspect, 1.0f, 1000.0f) };
+	CameraMatrices camMatrices{ camera, aspect, 1.0f, 1000.0f };
+	//const mat4 view { (rotate(cameraPitch, vX) * rotate(cameraHead, vY)) * translate(-position) };
+	//const mat4 proj { perspective(radians(100.0f), aspect, 1.0f, 1000.0f) };
 	const mat4 model {};
 
 
@@ -82,9 +88,10 @@ void ofApp::draw()
 	terrainShader.begin();
 	{
 		terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
-		terrainShader.setUniformMatrix4f("mvp", proj * view * model);
-		terrainShader.setUniformMatrix4f("mv", view * model);
-		terrainShader.setUniform3f("meshColor", vec3(0.9f, 0.4f, 0.8f));
+		terrainShader.setUniformMatrix4f("mvp", camMatrices.getProj() * camMatrices.getView() *  model);
+		terrainShader.setUniformMatrix4f("mv", camMatrices.getView() * model);
+		//terrainShader.setUniform3f("meshColor", vec3(0.9f, 0.4f, 0.8f));
+		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
 		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
 		terrainShader.setUniform3f("lightDir", normalize(vec3(-1, 1, 1)));
 		terrainShader.setUniform3f("ambientColor", vec3(0.1));
