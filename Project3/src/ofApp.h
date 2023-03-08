@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Camera.h"
 
 class ofApp : public ofBaseApp
 {
@@ -32,12 +31,10 @@ private:
 	int prevY { 0 };
 	const float mouseSensitivity { 0.02f };
 
-	const glm::vec3 vX { 1,0,0 };
-	const glm::vec3 vY { 0,1,0 };
-	glm::vec3 velocity { 0,0,0 };
-	//glm::vec3 position { 50, 50, 200 };
-
-	Camera camera{ glm::vec3(50, 50, 200) };
+	const glm::vec3 vX { 1, 0, 0 };
+	const glm::vec3 vY { 0, 1, 0 };
+	glm::vec3 velocity { 0, 0, 0 };
+	glm::vec3 position { 50, 50, 200 };
 
 	float cameraHead { 0 };
 	float cameraPitch { 0 };

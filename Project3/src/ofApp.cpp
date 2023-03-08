@@ -94,7 +94,7 @@ void ofApp::draw()
 		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
 		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
 		terrainShader.setUniform3f("lightDir", normalize(vec3(-1, 1, 1)));
-		terrainShader.setUniform3f("ambientColor", vec3(0.1));
+		terrainShader.setUniform3f("ambientColor", vec3(0.1f));
 		terrainMesh.draw();
 	}
 	terrainShader.end();
@@ -108,13 +108,19 @@ void ofApp::keyPressed(int key)
 		case '`': shadersNeedReload = true; break;
 
 		case 'a': velocity.x = -10; break;
+		case 'A': velocity.x = -10; break;
 		case 'd': velocity.x = 10; break;
+		case 'D': velocity.x = 10; break;
 
 		case 'q': velocity.y = -10; break;
+		case 'Q': velocity.y = -10; break;
 		case 'e': velocity.y = 10; break;
+		case 'E': velocity.y = 10; break;
 
 		case 'w': velocity.z = -10; break;
+		case 'W': velocity.z = -10; break;
 		case 's': velocity.z = 10; break;
+		case 'S': velocity.z = 10; break;
 
 		default: break;
 	}
@@ -126,13 +132,20 @@ void ofApp::keyReleased(int key)
 	switch (key)
 	{
 		case 'a': velocity.x = 0; break;
+		case 'A': velocity.x = 0; break;
 		case 'd': velocity.x = 0; break;
+		case 'D': velocity.x = 0; break;
 
 		case 'q': velocity.y = 0; break;
+		case 'Q': velocity.y = 0; break;
 		case 'e': velocity.y = 0; break;
+		case 'E': velocity.y = 0; break;
 
 		case 'w': velocity.z = 0; break;
+		case 'W': velocity.z = 0; break;
 		case 's': velocity.z = 0; break;
+		case 'S': velocity.z = 0; break;
+
 		default: break;
 	}
 }
