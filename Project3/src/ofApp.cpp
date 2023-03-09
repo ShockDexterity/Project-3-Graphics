@@ -93,7 +93,7 @@ void ofApp::draw()
 		//terrainShader.setUniform3f("meshColor", vec3(0.9f, 0.4f, 0.8f));
 		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
 		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
-		terrainShader.setUniform3f("lightDir", normalize(vec3(-1, 1, 1)));
+		terrainShader.setUniform3f("lightDir", normalize(vec3(1, 1, 1)));
 		terrainShader.setUniform3f("ambientColor", vec3(0.1f));
 		terrainMesh.draw();
 	}
