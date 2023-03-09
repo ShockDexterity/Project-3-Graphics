@@ -28,7 +28,6 @@ public:
 
 private:
 	ofMesh terrainMesh {};
-	ofVbo terrainVbo {};
 	ofShader terrainShader {};
 
 	ofMesh waterMesh {};
@@ -36,8 +35,8 @@ private:
 
 
 	ofShortImage heightmapLowRes {};
-	ofShortImage heightmapHiRes {};
-	CellManager<5> cm { heightmapHiRes, 1600, 256 };
+	ofShortImage heightmapHighRes {};
+	CellManager<5> terrainCells { heightmapHighRes, 1600, 256 };
 
 	int prevX { 0 };
 	int prevY { 0 };
