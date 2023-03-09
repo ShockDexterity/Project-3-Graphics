@@ -58,5 +58,11 @@
     <None Include="bin\data\shaders\terrain.frag">
       <Filter>src</Filter>
     </None>
+    <None Include="bin\data\shaders\water.frag">
+      <Filter>src</Filter>
+    </None>
+    <None Include="bin\data\shaders\water.vert">
+      <Filter>src</Filter>
+    </None>
   </ItemGroup>
 </Project>

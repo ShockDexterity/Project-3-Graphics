@@ -28,6 +28,9 @@ private:
 	ofVbo terrainVbo {};
 	ofShader terrainShader {};
 
+	ofMesh waterMesh {};
+	ofShader waterShader {};
+
 	int prevX { 0 };
 	int prevY { 0 };
 	const float mouseSensitivity { 0.02f };
@@ -37,7 +40,7 @@ private:
 	glm::vec3 velocity { 0, 0, 0 };
 	//glm::vec3 position { 50, 50, 200 };
 
-	Camera camera{ glm::vec3(50, 50, 200) };
+	Camera camera { glm::vec3(50, 50, 200) };
 
 	float cameraHead { 0 };
 	float cameraPitch { 0 };

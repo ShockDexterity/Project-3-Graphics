@@ -8,6 +8,7 @@ void ofApp::reloadShaders()
 {
 	shadersNeedReload = false;
 	terrainShader.load("shaders/terrain.vert", "shaders/terrain.frag");
+	waterShader.load("shaders/water.vert", "shaders/water.frag");
 }
 
 void ofApp::updateCameraRotation(float dx, float dy)
@@ -29,21 +30,34 @@ void ofApp::setup()
 	heightmap.load("textures/TamrielLowRes.png");
 	assert(heightmap.getWidth() != 0 && heightmap.getHeight() != 0);
 
+	const int xEnd { static_cast<int>(heightmap.getWidth()) - 1 };
+	const int yEnd { static_cast<int>(heightmap.getHeight()) - 1 };
+
 	buildTerrainMesh(
 		terrainMesh,
 		heightmap,
 		0,
 		0,
-		heightmap.getWidth() - 1,
-		heightmap.getHeight() - 1,
+		xEnd,
+		yEnd,
 		vec3(1, 50, 1)
 	);
 
-	for (size_t i = 0; i < terrainMesh.getNumNormals(); i++)
+	for (size_t i { 0 }; i < terrainMesh.getNumNormals(); i++)
 	{
 		terrainMesh.setNormal(i, -terrainMesh.getNormal(i));
 	}
 	terrainMesh.flatNormals();
+
+	const float waterHeight { 21.5f };
+	waterMesh.addVertices({
+		vec3(0, waterHeight, 0),		// 0
+		vec3(xEnd, waterHeight, 0),		// 1
+		vec3(xEnd, waterHeight, yEnd),	// 2
+		vec3(0, waterHeight, yEnd),		// 3
+		});
+
+	waterMesh.addIndices(std::vector<ofIndexType>{ 0, 2, 1, 3, 2, 0 });
 
 	ofSetBackgroundColor(136, 8, 8);
 }
@@ -78,18 +92,20 @@ void ofApp::draw()
 	const float aspect { width / height };
 
 	// constant view and projection for the models
-	CameraMatrices camMatrices{ camera, aspect, 1.0f, 1000.0f };
+	CameraMatrices camMatrices { camera, aspect, 1.0f, 1000.0f };
 	//const mat4 view { (rotate(cameraPitch, vX) * rotate(cameraHead, vY)) * translate(-position) };
 	//const mat4 proj { perspective(radians(100.0f), aspect, 1.0f, 1000.0f) };
 	const mat4 model {};
 
+	const mat4 mv { camMatrices.getView() * model };
+	const mat4 mvp { camMatrices.getProj() * mv };
 
 	// drawing the terrain
 	terrainShader.begin();
 	{
 		terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
-		terrainShader.setUniformMatrix4f("mvp", camMatrices.getProj() * camMatrices.getView() *  model);
-		terrainShader.setUniformMatrix4f("mv", camMatrices.getView() * model);
+		terrainShader.setUniformMatrix4f("mvp", mvp);
+		terrainShader.setUniformMatrix4f("mv", mv);
 		//terrainShader.setUniform3f("meshColor", vec3(0.9f, 0.4f, 0.8f));
 		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
 		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
@@ -98,29 +114,35 @@ void ofApp::draw()
 		terrainMesh.draw();
 	}
 	terrainShader.end();
+
+	waterShader.begin();
+	waterShader.setUniformMatrix4f("mvp", mvp);
+	waterMesh.draw();
+	waterShader.end();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+	const int vel { 50 };
 	switch (key)
 	{
 		case '`': shadersNeedReload = true; break;
 
-		case 'a': velocity.x = -10; break;
-		case 'A': velocity.x = -10; break;
-		case 'd': velocity.x = 10; break;
-		case 'D': velocity.x = 10; break;
+		case 'a': velocity.x = -vel; break;
+		case 'A': velocity.x = -vel; break;
+		case 'd': velocity.x = vel; break;
+		case 'D': velocity.x = vel; break;
 
-		case 'q': velocity.y = -10; break;
-		case 'Q': velocity.y = -10; break;
-		case 'e': velocity.y = 10; break;
-		case 'E': velocity.y = 10; break;
+		case 'q': velocity.y = -vel; break;
+		case 'Q': velocity.y = -vel; break;
+		case 'e': velocity.y = vel; break;
+		case 'E': velocity.y = vel; break;
 
-		case 'w': velocity.z = -10; break;
-		case 'W': velocity.z = -10; break;
-		case 's': velocity.z = 10; break;
-		case 'S': velocity.z = 10; break;
+		case 'w': velocity.z = -vel; break;
+		case 'W': velocity.z = -vel; break;
+		case 's': velocity.z = vel; break;
+		case 'S': velocity.z = vel; break;
 
 		default: break;
 	}

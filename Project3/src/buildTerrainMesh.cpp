@@ -4,7 +4,6 @@ using namespace glm;
 
 void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd, vec3 scale)
 {
-	cout << xEnd << ' ' << yEnd << '\n';
 	for (unsigned int y { yStart }; y <= yEnd; ++y)
 	{
 		for (unsigned int x { xStart }; x <= xEnd; ++x)
@@ -28,34 +27,12 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 			unsigned int i5 { x + (y + 1) * xEnd + 1 };
 			unsigned int i6 { (x + 1) + (y + 1) * xEnd + 1 };
 
-			/*if (y != 0)
-			{
-				i1 += y;
-				i2 += y;
-				i3 += y;
-				i4 += y;
-				i5 += y;
-				i6 += y;
-			}*/
-
 			terrainMesh.addIndex(i1 + y);
 			terrainMesh.addIndex(i2 + y);
 			terrainMesh.addIndex(i3 + y);
 			terrainMesh.addIndex(i4 + y);
 			terrainMesh.addIndex(i5 + y);
 			terrainMesh.addIndex(i6 + y);
-
-			// std::vector<unsigned int> vec { i1,i2,i3,i4,i5,i6 };
-
-			/*if (false)
-			{
-				std::cout << "{ ";
-				for (unsigned int i : vec)
-				{
-					std::cout << i << ' ';
-				}
-				std::cout << '}' << '\n';
-			}*/
 		}
 	}
 }
