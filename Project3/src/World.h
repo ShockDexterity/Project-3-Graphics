@@ -4,7 +4,7 @@
 struct World
 {
 public:
-    // The pixel array containing the world heightmap.
+    // The pixel array containing the world heightmapLowRes.
     const ofShortPixels* heightmap { nullptr };
 
     // The desired x,y,z scale for the height map. 

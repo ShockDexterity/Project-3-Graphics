@@ -6,7 +6,7 @@
 class CharacterPhysics
 {
 public:
-    // Initializes an instance by copying a World with it's parameters and pointer to a heightmap, 
+    // Initializes an instance by copying a World with it's parameters and pointer to a heightmapLowRes, 
     // and specifying the height of the character and their starting position.
     CharacterPhysics(const World& world);
 

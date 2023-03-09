@@ -207,7 +207,7 @@ private:
     // The buffer of loaded cells.
     Cell cellBuffer[CELL_BUFFER_SIZE] {};
 
-    // A reference to the pixel array containing the world heightmap.
+    // A reference to the pixel array containing the world heightmapLowRes.
     const ofShortImage& heightmap{ nullptr };
 
     float heightmapScale;
@@ -258,11 +258,11 @@ private:
     {
         if (startPos.x < heightmap.getWidth() && startPos.y < heightmap.getHeight())
         {
-            // Clamp the size to the bounds of the heightmap
+            // Clamp the size to the bounds of the heightmapLowRes
             size = glm::min(size, glm::uvec2(heightmap.getWidth(), heightmap.getHeight()) - startPos - 1u);
 
             // Use buildTerrainMesh() to initialize or re-initialize the mesh.
-            // The scale parameter taken by buildTerrainMesh needs to be relative to the dimensions of the heightmap
+            // The scale parameter taken by buildTerrainMesh needs to be relative to the dimensions of the heightmapLowRes
             buildTerrainMesh(terrainMesh, heightmap.getPixels(), startPos.x, startPos.y, startPos.x + size.x, startPos.y + size.y, glm::vec3(1, heightmapScale, 1));
         }
     }
@@ -273,7 +273,7 @@ private:
         cell.startPos = startPos;
         cell.live = false;
         cell.loading = true;
-        // Remap to the resolution of the heightmap and round to the nearest integer
+        // Remap to the resolution of the heightmapLowRes and round to the nearest integer
         glm::uvec2 startIndices { round(glm::vec2(startPos.x, startPos.y)) };
 
         // Clear the old terrain mesh and rebuild it for the current cell.

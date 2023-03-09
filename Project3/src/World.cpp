@@ -14,7 +14,7 @@ float World::getTerrainHeightAtPosition(const glm::vec3& position) const
         // After unscaling, should range between (0, 0, 0) and (1, 1, 1)
         vec3 unscaledPosition { position / dimensions };
 
-        // Remap to the resolution of the heightmap
+        // Remap to the resolution of the heightmapLowRes
         vec2 pixelScaledPosition { vec2(unscaledPosition.x, unscaledPosition.z) * vec2(heightmap->getWidth() - 1, heightmap->getHeight() - 1) };
 
         // Round down and clamp to get pixel indices

@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "Camera.h"
+#include "CellManager.h"
 
 class ofApp : public ofBaseApp
 {
@@ -9,6 +10,8 @@ public:
 	void setup();
 	void update();
 	void draw();
+
+	void exit();
 
 	void keyPressed(int key);
 	void keyReleased(int key);
@@ -31,6 +34,11 @@ private:
 	ofMesh waterMesh {};
 	ofShader waterShader {};
 
+
+	ofShortImage heightmapLowRes {};
+	ofShortImage heightmapHiRes {};
+	CellManager<5> cm { heightmapHiRes, 1600, 256 };
+
 	int prevX { 0 };
 	int prevY { 0 };
 	const float mouseSensitivity { 0.02f };
@@ -38,7 +46,6 @@ private:
 	const glm::vec3 vX { 1, 0, 0 };
 	const glm::vec3 vY { 0, 1, 0 };
 	glm::vec3 velocity { 0, 0, 0 };
-	//glm::vec3 position { 50, 50, 200 };
 
 	Camera camera { glm::vec3(50, 50, 200) };
 

@@ -354,3 +354,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+Project3/bin/data/textures/TamrielHighRes.png
