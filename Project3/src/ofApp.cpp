@@ -37,14 +37,13 @@ void ofApp::setup()
 
 	assert(heightmapLowRes.getWidth() != 0 && heightmapLowRes.getHeight() != 0);
 	assert(heightmapHiRes.getWidth() != 0 && heightmapHiRes.getHeight() != 0);
-
+	
 	const int lo_xEnd { static_cast<int>(heightmapLowRes.getWidth()) - 1 };
 	const int lo_yEnd { static_cast<int>(heightmapLowRes.getHeight()) - 1 };
-	const int hi_xEnd { static_cast<int>(heightmapLowRes.getWidth()) - 1 };
-	const int hi_yEnd { static_cast<int>(heightmapLowRes.getHeight()) - 1 };
+	const int hi_xEnd { static_cast<int>(heightmapHiRes.getWidth()) - 1 };
+	const int hi_yEnd { static_cast<int>(heightmapHiRes.getHeight()) - 1 };
 
 	float xscale { hi_xEnd / static_cast<float>(lo_xEnd) };
-	float yscale { 32.0f };
 
 	buildTerrainMesh(
 		terrainMesh,
@@ -53,7 +52,7 @@ void ofApp::setup()
 		0,
 		lo_xEnd,
 		lo_yEnd,
-		vec3(xscale, 50 * yscale, xscale)
+		vec3(xscale, 1600, xscale)
 	);
 
 	for (size_t i { 0 }; i < terrainMesh.getNumNormals(); i++)
@@ -62,7 +61,7 @@ void ofApp::setup()
 	}
 	terrainMesh.flatNormals();
 
-	const float waterHeight { 21.5f * yscale };
+	const float waterHeight { 700 };
 	waterMesh.addVertices({
 		vec3(0, waterHeight, 0),
 		vec3(lo_xEnd, waterHeight, 0),
@@ -102,8 +101,8 @@ void ofApp::draw()
 	const float aspect { width / height };
 
 	// constant view and projection for the models
-	CameraMatrices lo_camMatrices { camera, aspect, 100.0f, 10000.0f };
-	CameraMatrices hi_camMatrices { camera, aspect, 1.0f, 100.0f };
+	CameraMatrices lo_camMatrices { camera, aspect, 500.0f, 10000.0f };
+	CameraMatrices hi_camMatrices { camera, aspect, 1.0f, 10000.0f };
 	const mat4 model {};
 
 	const mat4 lmv { lo_camMatrices.getView() * model };
@@ -113,27 +112,36 @@ void ofApp::draw()
 	const mat4 hmvp { hi_camMatrices.getProj() * hmv };
 
 	// drawing the terrain
-	terrainShader.begin();
+	//{
+	//	terrainShader.begin();
+	//	terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
+	//	terrainShader.setUniform3f("lightColor", vec3(1)); // white light
+	//	terrainShader.setUniform3f("lightDir", normalize(vec3(1, 1, 1)));
+	//	terrainShader.setUniform3f("ambientColor", vec3(0.1f));
+
+	//	terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
+	//	terrainShader.setUniformMatrix4f("mvp", lmvp);
+	//	terrainShader.setUniformMatrix4f("mv", lmv);
+	//	terrainMesh.draw();
+	//	terrainShader.end();
+	//}
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+
 	{
-		//terrainShader.setUniform3f("meshColor", vec3(0.9f, 0.4f, 0.8f));
+		terrainShader.begin();
 		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
 		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
 		terrainShader.setUniform3f("lightDir", normalize(vec3(1, 1, 1)));
 		terrainShader.setUniform3f("ambientColor", vec3(0.1f));
 
 		terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
-		terrainShader.setUniformMatrix4f("mvp", lmvp);
-		terrainShader.setUniformMatrix4f("mv", lmv);
-		terrainMesh.draw();
-
-		glClear(GL_DEPTH_BUFFER_BIT);
-
-		terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
 		terrainShader.setUniformMatrix4f("mvp", hmvp);
 		terrainShader.setUniformMatrix4f("mv", hmv);
-		cm.drawActiveCells(camera.position, 1000.0f);
+		cm.drawActiveCells(camera.position, 500.0f);
+		terrainShader.end();
 	}
-	terrainShader.end();
+
 
 	waterShader.begin();
 	waterShader.setUniformMatrix4f("mvp", lmvp);
@@ -144,7 +152,7 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-	const int vel { 50 };
+	const int vel { 500 };
 	switch (key)
 	{
 		case '`': shadersNeedReload = true; break;
