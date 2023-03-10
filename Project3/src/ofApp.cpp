@@ -69,7 +69,8 @@ void ofApp::setup()
 	camera.position = vec3(hi_xEnd * 0.5f, 1400, hi_yEnd * 0.5f);
 	terrainCells.initializeForPosition(camera.position);
 
-	ofSetBackgroundColor(136, 8, 8);
+	// ofSetBackgroundColor(136, 8, 8); // Nether Sky
+	ofSetBackgroundColor(135, 206, 235); // Normal Sky
 }
 
 //--------------------------------------------------------------
@@ -124,7 +125,8 @@ void ofApp::draw()
 	// far terrain
 	{
 		terrainShader.begin();
-		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
+		// terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f)); // Nether ground
+		terrainShader.setUniform3f("meshColor", vec3(206 / 255.0f, 201 / 255.0f, 165 / 255.0f)); // Normal ground
 		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
 		terrainShader.setUniform3f("lightDir", normalize(vec3(1, 1, 1)));
 		terrainShader.setUniform3f("ambientColor", vec3(0.1f));
@@ -145,7 +147,8 @@ void ofApp::draw()
 	// close terrain
 	{
 		terrainShader.begin();
-		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
+		// terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f)); // Nether ground
+		terrainShader.setUniform3f("meshColor", vec3(206 / 255.0f, 201 / 255.0f, 165 / 255.0f)); // Normal ground
 		terrainShader.setUniform3f("lightColor", vec3(1)); // white light
 		terrainShader.setUniform3f("lightDir", normalize(vec3(1, 1, 1)));
 		terrainShader.setUniform3f("ambientColor", vec3(0.1f));
