@@ -39,6 +39,12 @@ void buildTerrainMesh(ofMesh& terrainMesh, const ofShortPixels& heightmap, unsig
 		}
 	}
 
+	for (size_t i{ 0 }; i < terrainMesh.getNumNormals(); ++i)
+	{
+		terrainMesh.setNormal(ofIndexType(i), -terrainMesh.getNormal(ofIndexType(i)));
+	}
+	terrainMesh.flatNormals();
+
 	/*for (unsigned int y { yStart }; y < yEnd; ++y)
 	{
 		for (unsigned int x { xStart }; x < xEnd; ++x)

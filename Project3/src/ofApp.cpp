@@ -56,12 +56,6 @@ void ofApp::setup()
 		vec3(scale, 1600, scale)
 	);
 
-	for (size_t i { 0 }; i < terrainMesh.getNumNormals(); ++i)
-	{
-		terrainMesh.setNormal(ofIndexType(i), -terrainMesh.getNormal(ofIndexType(i)));
-	}
-	terrainMesh.flatNormals();
-
 	const float waterHeight { 700.0f };
 	waterMesh.addVertices({
 		vec3(0,	waterHeight, 0),
