@@ -27,7 +27,7 @@ void ofApp::setup()
 {
 	ofDisableArbTex();
 	ofEnableDepthTest();
-
+	ofEnableAlphaBlending();
 	glEnable(GL_CULL_FACE);
 
 	heightmapLowRes.setUseTexture(false);
