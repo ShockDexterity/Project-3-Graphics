@@ -33,7 +33,6 @@ private:
 	ofMesh waterMesh {};
 	ofShader waterShader {};
 
-
 	ofShortImage heightmapLowRes {};
 	ofShortImage heightmapHighRes {};
 	CellManager<5> terrainCells { heightmapHighRes, 1600, 256 };

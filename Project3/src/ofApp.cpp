@@ -96,8 +96,8 @@ void ofApp::draw()
 	const float aspect { width / height };
 
 	// constant view and projection for the models
-	const float resClip { 100.0f };
-	CameraMatrices lo_camMatrices { camera, aspect, resClip, 10000.0f };
+	const float resClip { 300.0f };
+	CameraMatrices lo_camMatrices { camera, aspect, resClip - 100.0, 10000.0f };
 	CameraMatrices hi_camMatrices { camera, aspect, 1.0f, resClip };
 	const mat4 model {};
 
@@ -107,7 +107,21 @@ void ofApp::draw()
 	const mat4 hmv { hi_camMatrices.getView() * model };
 	const mat4 hmvp { hi_camMatrices.getProj() * hmv };
 
-	// drawing the terrain
+	// far water
+	{
+		waterShader.begin();
+
+		waterShader.setUniformMatrix4f("mvp", lmvp);
+		/*waterShader.setUniformMatrix4f("mv", lmv);
+		waterShader.setUniform1f("alpha0", resClip);
+		waterShader.setUniform1f("alpha1", resClip + 100.0);*/
+
+		waterMesh.draw();
+
+		waterShader.end();
+	}
+
+	// far terrain
 	{
 		terrainShader.begin();
 		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
@@ -118,18 +132,17 @@ void ofApp::draw()
 		terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
 		terrainShader.setUniformMatrix4f("mvp", lmvp);
 		terrainShader.setUniformMatrix4f("mv", lmv);
+
+		terrainShader.setUniform1f("alpha0", resClip - 100.0f);
+		terrainShader.setUniform1f("alpha1", resClip - 75.0f);
+
 		terrainMesh.draw();
 		terrainShader.end();
-
-
-		waterShader.begin();
-		waterShader.setUniformMatrix4f("mvp", lmvp);
-		waterMesh.draw();
-		waterShader.end();
 	}
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 
+	// close terrain
 	{
 		terrainShader.begin();
 		terrainShader.setUniform3f("meshColor", vec3(0.1f, 0.1f, 0.1f));
@@ -140,14 +153,28 @@ void ofApp::draw()
 		terrainShader.setUniformMatrix3f("normalMatrix", mat3(model));
 		terrainShader.setUniformMatrix4f("mvp", hmvp);
 		terrainShader.setUniformMatrix4f("mv", hmv);
-		terrainCells.drawActiveCells(camera.position, 500.0f);
-		terrainShader.end();
 
+		terrainShader.setUniform1f("alpha0", resClip + 101.0);
+		terrainShader.setUniform1f("alpha1", resClip + 100.0);
+
+		terrainCells.drawActiveCells(camera.position, resClip);
+		terrainShader.end();
+	}
+
+	// close water
+	{
 		waterShader.begin();
+
 		waterShader.setUniformMatrix4f("mvp", hmvp);
+		/*waterShader.setUniformMatrix4f("mv", hmv);
+		waterShader.setUniform1f("alpha0", resClip);
+		waterShader.setUniform1f("alpha1", resClip - 100.0);*/
+
 		waterMesh.draw();
+
 		waterShader.end();
 	}
+
 }
 
 //--------------------------------------------------------------
